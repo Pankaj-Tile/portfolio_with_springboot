@@ -66,6 +66,9 @@ public class Links {
                 + ", user=" + user + "]";
     }
 
+    public boolean equals(Object obj) {
+		return this.linkId==((Links)obj).getLinkId();
+	}
     
 
 

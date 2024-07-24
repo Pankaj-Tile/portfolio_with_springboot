@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.smart.dao.ContactRepository;
-import com.smart.dao.UserRepository;
+import com.smart.dao.*;
 import com.smart.entity.Contact;
 import com.smart.entity.Links;
+import com.smart.entity.Technology;
 import com.smart.entity.User;
 import com.smart.helper.MessageHelper;
 
@@ -43,6 +43,14 @@ public class UserController {
 	private UserRepository repository;
 	@Autowired
 	private ContactRepository contactRepository;
+	@Autowired
+	private LinkRepository linkRepository;
+	@Autowired
+	private ExperienceRepository experienceRepository;
+	@Autowired
+	private ProjectRepository projectRepository;
+	@Autowired
+	private TechnologyRepository technologyRepository;
 
 	@ModelAttribute
 	public void addCommonData(Model model, Principal principal) {
@@ -166,6 +174,21 @@ public String addLink(@ModelAttribute Links link, @RequestParam("link.linkImg") 
 		return "normal/show_contacts";
 	}
 
+
+	@GetMapping("/show_links/{page}")
+	public String getAllLinks(@PathVariable("page") Integer page, Model model, Principal principal) {
+    model.addAttribute("title", "Show User Links");
+    String userName = principal.getName();
+    User user = this.repository.getUserByUserName(userName);
+    Pageable pageable = PageRequest.of(page, 6);
+    Page<Links> list = this.linkRepository.findLinksByUser(user.getUserId(), pageable);
+    model.addAttribute("links", list);
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", list.getTotalPages());
+    return "normal/link/show_links";
+}
+
+
 	// Show Particular Contact Details
 	@RequestMapping("/{cId}/contact")
 	public String showContactDetail(@PathVariable("cId") Integer id, Model model, Principal principal) {
@@ -273,4 +296,106 @@ public String addLink(@ModelAttribute Links link, @RequestParam("link.linkImg") 
 		}
 		return "redirect:/user/index";
 	}
+
+
+
+
+
+
+	// Delete Link
+@GetMapping("/delete-link/{linkId}")
+public String deleteLink(@PathVariable("linkId") Integer linkId, Model model, HttpSession session,
+        Principal principal) {
+    Links link = this.linkRepository.findById(linkId).get();
+    User user = this.repository.getUserByUserName(principal.getName());
+    user.getLinks().remove(link);
+    this.repository.save(user);
+	System.out.println("Deleted"+link);
+    session.setAttribute("message", new MessageHelper("Link deleted successfully...", "success"));
+    return "redirect:/user/show_links/0";
+}
+
+// Open Update Form Handler for Links
+@PostMapping("/update-link/{linkId}")
+public String updateLinkForm(@PathVariable("linkId") Integer linkId, Model model) {
+    model.addAttribute("title", "Update Link");
+    Links link = this.linkRepository.findById(linkId).get();
+    model.addAttribute("link", link);
+    return "normal/link/update_link_form";
+}
+
+// // Update Link Handler
+// @PostMapping("/process-update-link")
+// public String updateLinkHandler(@ModelAttribute Links link, @RequestParam("link.linkImg") MultipartFile file,
+//         Model model, HttpSession session, Principal principal) {
+//     model.addAttribute("title", "Update Link");
+//     try {
+//         // Old Link Details
+//         Links oldLinkDetail = this.linkRepository.findById(link.getLinkId()).get();
+// 		System.out.println(oldLinkDetail);
+//         // Image
+//         if (!file.isEmpty()) {
+//             // Delete Old Photo From Computer
+//             File deleteFile = new ClassPathResource("static/uploads/links").getFile();
+//             File file2 = new File(deleteFile, oldLinkDetail.getLinkImg());
+//             file2.delete();
+//             // Update New Photo
+//             File saveFile = new ClassPathResource("static/uploads/links").getFile();
+//             Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+//             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//             link.setLinkImg(file.getOriginalFilename());
+//         } else {
+//             link.setLinkImg(oldLinkDetail.getLinkImg());
+			
+//         }
+//         User user = this.repository.getUserByUserName(principal.getName());
+//         link.setUser(user);
+//         this.linkRepository.save(link);
+//         session.setAttribute("message", new MessageHelper("Your Link is updated....", "success"));
+//     } catch (Exception e) {
+//         System.out.println("Error : " + e.getMessage());
+//         e.printStackTrace();
+//     }
+//     return "redirect:/user/show_links/0";
+// }
+
+
+// Update Link Handler
+@PostMapping("/process-update-link")
+public String updateLinkHandler(@ModelAttribute Links link, @RequestParam("link.linkImg") MultipartFile file,
+        Model model, HttpSession session, Principal principal) {
+    model.addAttribute("title", "Update-Link");
+    try {
+        // Old Link Details
+        Links oldLinkDetail = this.linkRepository.findById(link.getLinkId()).get();
+
+        // Image
+        if (!file.isEmpty()) {
+            // Delete Old Photo from Computer
+            File deleteFile = new ClassPathResource("static/uploads/links").getFile();
+            File fileToDelete = new File(deleteFile, oldLinkDetail.getLinkImg());
+            fileToDelete.delete();
+
+            // Update New Photo
+            File saveFile = new ClassPathResource("static/uploads/links").getFile();
+            Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            link.setLinkImg(file.getOriginalFilename());
+        } else {
+            link.setLinkImg(oldLinkDetail.getLinkImg());
+        }
+
+        User user = this.repository.getUserByUserName(principal.getName());
+        link.setUser(user);
+        this.linkRepository.save(link);
+
+        session.setAttribute("message", new MessageHelper("Your Link is Updated....", "success"));
+    } catch (Exception e) {
+        System.out.println("Error : " + e.getMessage());
+        e.printStackTrace();
+    }
+    return "redirect:/user/show_links/0";
+}
+
+
 }

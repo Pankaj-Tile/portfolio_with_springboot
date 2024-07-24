@@ -32,7 +32,7 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Contact> contacts = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user", orphanRemoval = true) 
     private List<Experience> experiences=new ArrayList<>();
     
     public List<Experience> getExperiences() {
@@ -43,7 +43,7 @@ public class User {
 		this.experiences = experiences;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user", orphanRemoval = true) 
     private List<Technology> technologies=new ArrayList<>();
 
     public List<Technology> getTechnologies() {
@@ -54,7 +54,7 @@ public class User {
 		this.technologies = technologies;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user", orphanRemoval = true) 
     private List<Project> projects=new ArrayList<>();
 
     public List<Project> getProjects() {
@@ -65,7 +65,7 @@ public class User {
 		this.projects = projects;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user", orphanRemoval = true) 
     private List<Links> links=new ArrayList<>();
 
 	public List<Links> getLinks() {
