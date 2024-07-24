@@ -6,42 +6,52 @@
 </head>
 <body>
     <section>
-        <div class="card mr-5 ml-3">
+        <div class="card mr-3">
             <div class="card-body">
                 <h1 class="text-center">Update Technology</h1>
-                <form action="#" th:object="${technology}" enctype="multipart/form-data" method="post" th:action="@{/user/process-update-technology}">
-                    <!-- Technology Name -->
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-cogs"></i>
-                            </div>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form action="#" th:object="${technology}" enctype="multipart/form-data" method="post" th:action="@{/user/process-update-technology}">
+                                <!-- Hidden Technology ID -->
+                                <input type="hidden" th:field="*{techId}" />
+
+                                <!-- Technology Name -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-microchip"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="techName" name="techName" placeholder="Enter Technology Name Here" class="form-control" required="required" th:value="${technology.techName}" />
+                                </div>
+
+                                <!-- Technology Description -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-info-circle"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="techDesc" name="techDesc" placeholder="Enter Technology Description Here" class="form-control" required="required" th:value="${technology.techDesc}" />
+                                </div>
+
+                                <!-- Image File -->
+                                <div class="custom-file mt-3">
+                                    <p>
+                                        Choose Technology Image: <input type="file" name="technology.techImg" />
+                                    </p>
+                                    <p><img th:if="${technology.techImg}" th:src="@{'/uploads/technologies/'+ ${technology.techImg}}" alt="Image" class="img-thumbnail" style="height: 80px;" /></p>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="container text-center mt-3">
+                                    <button class="btn btn-outline-primary">Update Technology</button>
+                                </div>
+                            </form>
                         </div>
-                        <input type="text" id="techName" name="techName" placeholder="Enter Technology Name Here" class="form-control" th:value="${technology.techName}" required="required" />
                     </div>
-
-                    <!-- Technology Description -->
-                    <div class="input-group mt-3">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fa fa-info"></i>
-                            </div>
-                        </div>
-                        <textarea id="techDesc" name="techDesc" placeholder="Enter Technology Description Here" class="form-control" required="required" th:text="${technology.techDesc}"></textarea>
-                    </div>
-
-                    <!-- Image File -->
-                    <div class="custom-file mt-3">
-                        <p>
-                            Choose Technology Image: <input type="file" name="tech.techImg" />
-                        </p>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="container text-center">
-                        <button class="btn btn-outline-primary">Update Technology</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </section>
