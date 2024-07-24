@@ -13,6 +13,9 @@
                     <div class="row">
                         <div class="col-md-10 offset-md-1">
                             <form action="#" th:object="${project}" enctype="multipart/form-data" method="post" th:action="@{/user/process-update-project}">
+                                <!-- Hidden Project ID -->
+                                <input type="hidden" th:field="*{projectId}" />
+
                                 <!-- Project Name -->
                                 <div class="input-group">
                                     <div class="input-group-prepend">
