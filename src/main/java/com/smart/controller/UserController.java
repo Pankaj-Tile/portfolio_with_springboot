@@ -572,12 +572,12 @@ public String updateExperienceHandler(@ModelAttribute Experience experience, @Re
         // Image
         if (!file.isEmpty()) {
             // Delete Old Photo from Computer
-            File deleteFile = new ClassPathResource("static/uploads/experience").getFile();
+            File deleteFile = new ClassPathResource("static/uploads/experiences").getFile();
             File fileToDelete = new File(deleteFile, oldExperienceDetail.getOrgImg());
             fileToDelete.delete();
 
             // Update New Photo
-            File saveFile = new ClassPathResource("static/uploads/experience").getFile();
+            File saveFile = new ClassPathResource("static/uploads/experiences").getFile();
             Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             experience.setOrgImg(file.getOriginalFilename());
