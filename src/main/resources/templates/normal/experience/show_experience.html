@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Show Experiences</title>
+</head>
+<body>
+    <section>
+        <div class="card mr-5 ml-3">
+            <div class="card-body">
+                <h1 class="text-center">Your Experiences</h1>
+                <!-- Search -->
+                <div class="search-container my-3">
+                    <input onkeyup="search()" id="search-input" type="text" class="form-control" placeholder="Search Your Experiences" />
+                    <div class="search-result">
+                        <!-- Search Result Here -->
+                        <h1>This is the Result</h1>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Organization Name</th>
+                            <th scope="col">Position</th>
+                            <th scope="col">About Position</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Delete</th>
+                            <th scope="col">Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="exp : ${experiences}">
+                            <td th:text="'EXP'+${exp.expId}"></td>
+                            <td th:text="${exp.orgName}"></td>
+                            <td th:text="${exp.orgPosition}"></td>
+                            <td th:text="${exp.orgPositionAbout}"></td>
+                            <td><img class="my_profile_picture" th:src="@{'/uploads/experiences/'+${exp.orgImg}}" alt="Image"></td>
+                            <td><a href="#" th:onclick="|deleteExperience(${exp.expId})|" class="btn btn-danger btn-sm">Delete</a></td>
+                            <td>
+                                <form method="post" th:action="@{'/user/update-experience/'+${exp.expId}}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Pagination Part -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li th:if="${currentPage != 0}" class="page-item"><a class="page-link" th:href="@{'/user/show_experience/'+${currentPage-1}}">Previous</a></li>
+                        <li th:classappend="${currentPage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a class="page-link" th:href="@{'/user/show_experience/'+${i-1}}"><span th:text="${i}"></span></a></li>
+                        <li th:if="${currentPage+1 != totalPages}" class="page-item"><a class="page-link" th:href="@{'/user/show_experience/'+${currentPage+1}}">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

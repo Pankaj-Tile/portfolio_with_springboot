@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Show Projects</title>
+</head>
+<body>
+    <section>
+        <div class="card mr-5 ml-3">
+            <div class="card-body">
+                <h1 class="text-center">Your Projects</h1>
+                <!-- Search -->
+                <div class="search-container my-3">
+                    <input onkeyup="search()" id="search-input" type="text" class="form-control" placeholder="Search Your Projects" />
+                    <div class="search-result">
+                        <!-- Search Result Here -->
+                        <h1>This is the Result</h1>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Project Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Delete</th>
+                            <th scope="col">Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="project : ${projects}">
+                            <td th:text="'PROJECT'+${project.projectId}"></td>
+                            <td th:text="${project.projectName}"></td>
+                            <td th:text="${project.projectDesc}"></td>
+                            <td><a th:href="${project.projectUrl}" target="_blank" th:text="${project.projectUrl}"></a></td>
+                            <td><img class="my_profile_picture" alt="project_image" th:src="@{'/uploads/projects/'+${project.projectSource}}" /></td>
+                            <td><a href="#" th:onclick="|deleteProject(${project.projectId})|" class="btn btn-danger btn-sm">Delete</a></td>
+                            <td>
+                                <form method="post" th:action="@{'/user/update-project/'+${project.projectId}}" class="">
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Pagination Part -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li th:if="${currentPage != 0}" class="page-item"><a class="page-link" th:href="@{'/user/show_project/'+${currentPage-1}}">Previous</a></li>
+                        <li th:classappend="${currentPage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a class="page-link" th:href="@{'/user/show_project/'+${i-1}}"><span th:text="${i}"></span></a></li>
+                        <li th:if="${currentPage+1 != totalPages}" class="page-item"><a class="page-link" th:href="@{'/user/show_project/'+${currentPage+1}}">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

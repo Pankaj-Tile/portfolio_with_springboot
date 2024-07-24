@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Experience</title>
+</head>
+<body>
+    <section>
+        <div class="card mr-3">
+            <div class="card-body">
+                <h1 class="text-center">Add Experience</h1>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form action="#" th:object="${experience}" enctype="multipart/form-data" method="post" th:action="@{/user/process-experience}">
+                                <!-- Organization Name -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-building"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="orgName" name="orgName" placeholder="Enter Organization Name Here" class="form-control" required="required" />
+                                </div>
+                                
+                                <!-- Position -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="orgPosition" name="orgPosition" placeholder="Enter Position Here" class="form-control" required="required" />
+                                </div>
+                                
+                                <!-- Position Description -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-info"></i>
+                                        </div>
+                                    </div>
+                                    <textarea id="orgPositionAbout" name="orgPositionAbout" placeholder="Enter Position Description Here" class="form-control" required="required"></textarea>
+                                </div>
+                                
+                                <!-- Image File -->
+                                <div class="custom-file">
+                                    <p class=" mt-3">
+                                        Choose Organization Image: <input type="file" name="experience.orgImg" required="required" />
+                                    </p>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="container text-center">
+                                    <button class="btn btn-outline-primary">Save Experience</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

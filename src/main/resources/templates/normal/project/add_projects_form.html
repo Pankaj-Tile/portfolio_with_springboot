@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Project</title>
+</head>
+<body>
+    <section>
+        <div class="card mr-3">
+            <div class="card-body">
+                <h1 class="text-center">Add Project</h1>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form action="#" th:object="${project}" enctype="multipart/form-data" method="post" th:action="@{/user/process-project}">
+                                <!-- Project Name -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-briefcase"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="projectName" name="projectName" placeholder="Enter Project Name Here" class="form-control" required="required" />
+                                </div>
+                                
+                                <!-- Project Description -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-info"></i>
+                                        </div>
+                                    </div>
+                                    <textarea id="projectDesc" name="projectDesc" placeholder="Enter Project Description Here" class="form-control" required="required"></textarea>
+                                </div>
+                                
+                                <!-- Project URL -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-link"></i>
+                                        </div>
+                                    </div>
+                                    <input type="url" id="projectUrl" name="projectUrl" placeholder="Enter Project URL Here" class="form-control"  />
+                                </div>
+                                
+                                <!-- Image File -->
+                                <div class="custom-file">
+                                    <p class=" mt-3">
+                                        Choose Project Image: <input type="file" name="project.projectSource" required="required" />
+                                    </p>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="container text-center">
+                                    <button class="btn btn-outline-primary">Save Project</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Update Project</title>
+</head>
+<body>
+    <section>
+        <div class="card mr-3">
+            <div class="card-body">
+                <h1 class="text-center">Update Project</h1>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form action="#" th:object="${project}" enctype="multipart/form-data" method="post" th:action="@{/user/process-update-project}">
+                                <!-- Project Name -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-clipboard"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="projectName" name="projectName" placeholder="Enter Project Name Here" class="form-control" required="required" th:value="${project.projectName}" />
+                                </div>
+                                
+                                <!-- Project Description -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-info-circle"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="projectDesc" name="projectDesc" placeholder="Enter Project Description Here" class="form-control" required="required" th:value="${project.projectDesc}" />
+                                </div>
+
+                                <!-- Project URL -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-globe"></i>
+                                        </div>
+                                    </div>
+                                    <input type="url" id="projectUrl" name="projectUrl" placeholder="Enter Project URL Here" class="form-control" th:value="${project.projectUrl}" />
+                                </div>
+
+                                <!-- Image File -->
+                                <div class="custom-file mt-3">
+                                    <p>
+                                        Choose Project Source: <input type="file" name="project.projectSource" />
+                                    </p>
+                                    <p><img th:if="${project.projectSource}" th:src="@{'/uploads/projects/'+ ${project.projectSource}}" alt="Image" class="img-thumbnail" style="height: 100px;"  />
+                                    </p>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="container text-center mt-3">
+                                    <button class="btn btn-outline-primary">Update Project</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
