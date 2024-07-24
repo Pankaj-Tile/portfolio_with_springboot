@@ -624,7 +624,7 @@ public String updateTechnologyForm(@PathVariable("techId") Integer techId, Model
 
 // Update Technology Handler
 @PostMapping("/process-update-technology")
-public String updateTechnologyHandler(@ModelAttribute Technology technology, @RequestParam("technology.techImg") MultipartFile file,
+public String updateTechnologyHandler(@ModelAttribute Technology technology, @RequestParam("technologies.techImg") MultipartFile file,
         Model model, HttpSession session, Principal principal) {
     model.addAttribute("title", "Update-Technology");
     try {
@@ -634,7 +634,7 @@ public String updateTechnologyHandler(@ModelAttribute Technology technology, @Re
         // Image
         if (!file.isEmpty()) {
             // Delete Old Photo from Computer
-            File deleteFile = new ClassPathResource("static/uploads/technology").getFile();
+            File deleteFile = new ClassPathResource("static/uploads/technologies").getFile();
             File fileToDelete = new File(deleteFile, oldTechnologyDetail.getTechImg());
             fileToDelete.delete();
 
@@ -695,12 +695,12 @@ public String updateProjectHandler(@ModelAttribute Project project, @RequestPara
         // Image
         if (!file.isEmpty()) {
             // Delete Old Photo from Computer
-            File deleteFile = new ClassPathResource("static/uploads/project").getFile();
+            File deleteFile = new ClassPathResource("static/uploads/projects").getFile();
             File fileToDelete = new File(deleteFile, oldProjectDetail.getProjectSource());
             fileToDelete.delete();
 
             // Update New Photo
-            File saveFile = new ClassPathResource("static/uploads/project").getFile();
+            File saveFile = new ClassPathResource("static/uploads/projects").getFile();
             Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             project.setProjectSource(file.getOriginalFilename());
