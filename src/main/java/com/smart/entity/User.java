@@ -32,6 +32,50 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Contact> contacts = new ArrayList<>();
 
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+    private List<Experience> experiences=new ArrayList<>();
+    
+    public List<Experience> getExperiences() {
+		return experiences;
+	}
+
+	public void setExperiences(List<Experience> experiences) {
+		this.experiences = experiences;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+    private List<Technology> technologies=new ArrayList<>();
+
+    public List<Technology> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(List<Technology> technologies) {
+		this.technologies = technologies;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+    private List<Project> projects=new ArrayList<>();
+
+    public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user") 
+    private List<Links> links=new ArrayList<>();
+
+	public List<Links> getLinks() {
+		return links;
+	}
+
+	public void setLinks(List<Links> links) {
+		this.links = links;
+	}
+
 	/**
 	 * 
 	 */

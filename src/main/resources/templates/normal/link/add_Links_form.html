@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8">
+<title>Add Link</title>
+</head>
+<body>
+    <section>
+        <div class="card mr-3">
+            <div class="card-body">
+                <h1 class="text-center">Add Link</h1>
+                <div class="container-fluid mt-1">
+                    <div class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <form action="#" th:object="${link}" enctype="multipart/form-data" method="post" th:action="@{/user/process-link}">
+                                <!-- Link Name -->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-link"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="linkName" name="linkName" placeholder="Enter Link Name Here" class="form-control" required="required" />
+                                </div>
+                                
+                                <!-- Link URL -->
+                                <div class="input-group mt-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-globe"></i>
+                                        </div>
+                                    </div>
+                                    <input type="url" id="linkUrl" name="linkUrl" placeholder="Enter Link URL Here" class="form-control"  />
+                                </div>
+                                
+                                <!-- Image File -->
+                                <div class="custom-file">
+                                    <p class=" mt-3">
+                                        Choose Link Image: <input type="file" name="link.linkImg" required="required" />
+                                    </p>
+                                </div>
+                                
+                                <!-- Description -->
+                                
+                                
+                                <!-- Submit Button -->
+                                <div class="container text-center">
+                                    <button class="btn btn-outline-primary">Save Link</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.smart.dao.ContactRepository;
 import com.smart.dao.UserRepository;
 import com.smart.entity.Contact;
+import com.smart.entity.Links;
 import com.smart.entity.User;
 import com.smart.helper.MessageHelper;
 
@@ -66,6 +67,14 @@ public class UserController {
 		return "normal/add_contact_form";
 	}
 
+	@GetMapping("/add-links")
+	public String openAddLinksForm(Model model) {
+		model.addAttribute("title", "Add Links");
+		model.addAttribute("contact", new Contact());
+		return "normal/link/add_Links_form";
+	}
+	
+
 	@PostMapping("/process-contant")
 	public String addContact(@ModelAttribute Contact contact, @RequestParam("contact.imageURL") MultipartFile file,
 			Principal principal, HttpSession session) {
@@ -99,6 +108,50 @@ public class UserController {
 		}
 		return "normal/add_contact_form";
 	}
+
+	@PostMapping("/process-link")
+public String addLink(@ModelAttribute Links link, @RequestParam("link.linkImg") MultipartFile file, Principal principal, HttpSession session) {
+    try {
+        String email = principal.getName();
+        User user = this.repository.getUserByUserName(email);
+        
+        // Processing and uploading the image
+        if (file.isEmpty()) {
+            System.out.println("File is empty");
+            link.setLinkImg("default.png"); // Set a default image if no file is uploaded
+        } else {
+            // Set the file name to the linkImg property
+            link.setLinkImg(file.getOriginalFilename());
+            
+            // Get the path to save the file
+            File saveFile = new ClassPathResource("static/uploads/links").getFile();
+            Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+            
+            // Save the file to the specified path
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Image is uploaded");
+        }
+        
+        // Set the user and save the link
+        link.setUser(user);
+        user.getLinks().add(link);
+        this.repository.save(user);
+        
+        System.out.println("Data: " + link);
+        System.out.println("Added to database");
+        
+        // Set a success message
+        session.setAttribute("message", new MessageHelper("Your link is added! Add more..", "success"));
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        e.printStackTrace();
+        
+        // Set an error message
+        session.setAttribute("message", new MessageHelper("Something went wrong! Try again..", "danger"));
+    }
+    
+    return "normal/link/add_links_form";
+}
 
 	@GetMapping("/show_contacts/{page}")
 	public String getAllContacts(@PathVariable("page") Integer page, Model model, Principal principal) {
